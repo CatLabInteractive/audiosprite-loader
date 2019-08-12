@@ -35,8 +35,7 @@ availableMethods.forEach(function(method) {
         
         args.push(this.id);
         
-        console.log(args);
-        window.$_audiosprite[methodName].apply(window.$_audiosprite, args);
+        return window.$_audiosprite[methodName].apply(window.$_audiosprite, args);
     }
 });
 
