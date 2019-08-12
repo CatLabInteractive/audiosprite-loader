@@ -13,13 +13,23 @@ var HowlAudioHelper = function(id) {
     this.id = id;
 }
 
-const availableMethods = [ 'pause' ];
-availableMethods.forEach(function(methodName) {
+const availableMethods = [ 
+    'play:0', 'pause:0', 'stop:0', 'mute:1', 
+    'volume:1', 'fade:3', 'rate:1', 'seek:1',
+    'loop:1', 'state:0', 'playing:0', 'duration:0',
+    'on:2', 'once:2', 'off:2', 'load:0', 'unload:0' 
+];
+    
+availableMethods.forEach(function(method) {
+    var parts = method.split(':');
+    var methodName = parts[0];
+    var parameterCount = parts[1];
+
     HowlAudioHelper.prototype[methodName] = function() {
         var args = [];
-        args.push(this.id);
         Array.prototype.push.apply(args, arguments);
-        window.$_audiosprite[methodName].apply(this, args);
+        args[parameterCount] = this.id;
+        window.$_audiosprite[methodName].apply(window.$_audiosprite, args);
     }
 });
 
