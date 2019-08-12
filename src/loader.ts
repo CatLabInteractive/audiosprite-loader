@@ -18,7 +18,8 @@ availableMethods.forEach(function(methodName) {
     HowlAudioHelper.prototype[methodName] = function() {
         var args = [];
         args.push(this.id);
-        Array.prototype.push.apply( args, arguments );
+        Array.prototype.push.apply(args, arguments);
+        window.$_audiosprite[methodName].apply(this, args);
     }
 });
 
