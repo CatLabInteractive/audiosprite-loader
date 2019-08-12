@@ -9,9 +9,21 @@ module.exports = function (content: Buffer, map: any, meta: any) {
         callback(null, `const Howl = require("howler").Howl;
 window.$_audiosprite = window.$_audiosprite || new Howl(${ data });
 
+class HowlAudioHelper {
+
+    constructor(
+        public id: number
+    ) {}
+
+    pause() {
+        window.$_audiosprite.pause(this.id);
+    }
+}
+
 module.exports = {
   play: function () {
-    return window.$_audiosprite.play("${ soundId }");
+    const id = window.$_audiosprite.play("${ soundId }");
+    return new HowlAudioHelper(id);
   }
 }`);
     });
