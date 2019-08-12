@@ -6,19 +6,21 @@ module.exports = function (content: Buffer, map: any, meta: any) {
     const soundId = path.basename(this.resourcePath, path.extname(this.resourcePath))
 
     Plugin.onReady((data) => {
-        callback(null, `const Howl = require("howler").Howl;
+        callback(null, `var Howl = require("howler").Howl;
 window.$_audiosprite = window.$_audiosprite || new Howl(${ data });
 
-class HowlAudioHelper {
-
-    constructor(
-        public id: number
-    ) {}
-
-    pause() {
-        window.$_audiosprite.pause(this.id);
-    }
+var HowlAudioHelper = function(id) {
+    this.id = id;
 }
+
+const availableMethods = [ 'pause' ];
+availableMethods.forEach(function(methodName) {
+    HowlAudioHelper.prototype[methodName] = function() {
+        var args = [];
+        args.push(this.id);
+        Array.prototype.push.apply( args, arguments );
+    }
+});
 
 module.exports = {
   play: function () {
@@ -28,6 +30,6 @@ module.exports = {
 }`);
     });
 
-}
+};
 
 module.exports.raw = true;
