@@ -35,6 +35,7 @@ availableMethods.forEach(function(method) {
         
         args.push(this.id);
         
+        console.log('howler callback', methodName, args);
         return window.$_audiosprite[methodName].apply(window.$_audiosprite, args);
     }
 });
